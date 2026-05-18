@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +58,18 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/{id}',   [ProductController::class, 'destroy']);
     });
 
+});
+
+    // Pastikan prefix auth:api disesuaikan jika nama middleware JWT di projectmu berbeda
+    Route::middleware('auth:api')->group(function () {
+        
+    // Endpoint untuk pembeli melihat riwayat ordernya
+    Route::get('/orders', [OrderController::class, 'index']);
+    
+    // Endpoint untuk membuat order baru (Checkout)
+    Route::post('/orders', [OrderController::class, 'store']);
+    
+    // Endpoint untuk update status (diproses/selesai)
+    Route::put('/orders/{id_order}/status', [OrderController::class, 'updateStatus']);
+    
 });
