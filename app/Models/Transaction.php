@@ -13,8 +13,12 @@ class Transaction extends Model
         'payment_status'
     ];
 
+    /**
+     * Relasi: Transaction belongsTo Order
+     * Foreign key: transactions.order_id -> orders.id_order
+     */
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'order_id', 'id_order');
     }
 }

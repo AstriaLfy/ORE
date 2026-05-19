@@ -7,19 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = [
-        'customer_name',
-        'total_price',
-        'status'
-    ];
-
-    public function transaction()
-    {
-        return $this->hasOne(Transaction::class);
-    }
     use HasFactory;
 
-    // Menyesuaikan primary key dengan skema kamu
+    // Menyesuaikan primary key dengan skema (id_order)
     protected $primaryKey = 'id_order';
 
     protected $fillable = [
@@ -29,14 +19,27 @@ class Order extends Model
         'status'
     ];
 
-    // Jika skema database gabungan (Monolithic), tambahkan relasi ini:
-    /*
-    public function user() {
+    /**
+     * Relasi: Order hasOne Transaction
+     */
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'order_id', 'id_order');
+    }
+
+    /**
+     * Relasi: Order belongsTo User
+     */
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function product() {
-        return $this->belongsTo(Product::class, 'product_id', 'id_product');
+    /**
+     * Relasi: Order belongsTo Product
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
-    */
 }
